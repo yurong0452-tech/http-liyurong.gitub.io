@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>龙游智链 AI文旅规划智能体</title>
+
+
+<style>
+
+/* ===== 全局 ===== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Microsoft YaHei",sans-serif;
+}
+
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#f2fbff,
+#ffffff,
+#e9fff5
+);
+
+color:#234;
+
+}
+
+
+/* ===== 顶部导航 ===== */
+
+.nav{
+
+height:80px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:0 80px;
+
+
+background:
+rgba(255,255,255,.85);
+
+
+backdrop-filter:blur(20px);
+
+
+position:fixed;
+
+top:0;
+
+width:100%;
+
+
+z-index:999;
+
+
+box-shadow:
+
+0 10px 30px rgba(0,150,200,.12);
+
+}
+
+
+
+.logo{
+
+font-size:32px;
+
+font-weight:bold;
+
+
+background:
+
+linear-gradient(
+90deg,
+#38bdf8,
+#34d399
+);
+
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+}
+
+
+
+.menu span{
+
+margin-left:35px;
+
+color:#16708c;
+
+cursor:pointer;
+
+}
+
+
+
+/* ===== 首页 ===== */
+
+
+.hero{
+
+min-height:100vh;
+height:auto;
+padding:130px 24px 70px;
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+
+position:relative;
+
+
+overflow:visible;
+
+
+
+background:
+
+linear-gradient(
+rgba(255,255,255,.65),
+rgba(230,248,255,.8)
+),
+
+url("https://images.unsplash.com/photo-1517299321609-52687d1bc55b");
+
+
+background-size:cover;
+
+background-position:center;
+
+
+}
+
+
+
+.hero:before{
+
+content:"❄ ❄ ❄ ❄ ❄";
+
+position:absolute;
+
+top:120px;
+
+font-size:45px;
+
+letter-spacing:50px;
+
+color:white;
+
+opacity:.8;
+
+
+animation:snow 10s infinite linear;
+
+
+}
+
+
+
+@keyframes snow{
+
+0%{
+
+transform:translateY(-100px);
+
+}
+
+
+100%{
+
+transform:translateY(700px);
+
+}
+
+}
+
+
+
+
+.hero h1{
+
+
+font-size:78px;
+
+
+letter-spacing:10px;
+
+
+background:
+
+linear-gradient(
+90deg,
+#38bdf8,
+#34d399
+);
+
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+
+}
+
+
+
+.hero h2{
+
+font-size:38px;
+
+margin:20px;
+
+color:#164e63;
+
+}
+
+
+
+.hero p{
+
+width:850px;
+
+font-size:18px;
+
+line-height:2;
+
+color:#527;
+
+}
+
+
+
+
+/* ===== AI输入区域 ===== */
+
+
+.ai-box{
+
+
+margin-top:40px;
+
+width:900px;
+
+
+padding:35px;
+
+
+background:white;
+
+
+border-radius:30px;
+
+
+box-shadow:
+
+
+0 20px 60px rgba(0,150,200,.18);
+
+
+}
+
+
+
+.ai-box input{
+
+
+width:70%;
+
+padding:18px;
+
+
+border-radius:15px;
+
+
+border:1px solid #ccecf8;
+
+
+font-size:16px;
+
+}
+
+
+
+
+button{
+
+
+padding:18px 35px;
+
+
+border:none;
+
+
+border-radius:15px;
+
+
+background:
+
+linear-gradient(
+90deg,
+#38bdf8,
+#34d399
+);
+
+
+color:white;
+
+cursor:pointer;
+
+
+font-size:16px;
+
+
+}
+
+
+
+
+.result{
+
+
+margin-top:25px;
+
+
+padding:25px;
+
+
+border-radius:20px;
+
+
+background:#f5fcff;
+
+
+line-height:2;
+
+
+text-align:left;
+
+
+color:#234;
+
+
+}
+
+
+
+/* ===== 通用模块 ===== */
+
+
+.section{
+
+
+padding:90px 80px;
+
+
+}
+
+
+
+.title{
+
+
+font-size:42px;
+
+text-align:center;
+
+margin-bottom:50px;
+
+color:#164e63;
+
+
+}
+
+
+
+/* 卡片 */
+
+
+.grid{
+
+
+display:grid;
+
+grid-template-columns:
+
+repeat(3,1fr);
+
+
+gap:30px;
+
+
+}
+
+
+
+.card{
+
+
+background:white;
+
+
+padding:35px;
+
+
+border-radius:28px;
+
+
+box-shadow:
+
+0 15px 40px rgba(0,150,200,.12);
+
+
+transition:.3s;
+
+
+}
+
+
+
+.card:hover{
+
+
+transform:translateY(-10px);
+
+
+box-shadow:
+
+0 20px 50px rgba(56,189,248,.25);
+
+
+}
+
+
+
+
+.card h3{
+
+
+color:#0284c7;
+
+font-size:25px;
+
+margin-bottom:20px;
+
+
+}
+
+
+
+.card p{
+
+
+line-height:1.8;
+
+color:#64748b;
+
+
+}
+
+
+</style>
+
+
+<style>
+html{scroll-behavior:smooth;scroll-padding-top:95px}
+body{overflow-x:hidden}
+.hero{min-height:100vh;height:auto;overflow:visible}
+.ai-box{width:min(900px,94vw);max-width:100%;}
+.planner-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:16px;text-align:left}
+.planner-fields label{display:flex;flex-direction:column;gap:7px;font-size:14px;font-weight:600;color:#164e63}
+.planner-fields label.wide{grid-column:1/-1}
+.planner-fields input{width:100%;min-width:0;padding:13px 14px;border:1px solid #ccecf8;border-radius:12px;font-size:15px;background:#fbfeff;color:#234}
+.planner-hint,.source-note{font-size:13px;line-height:1.8;color:#64748b;margin:10px 0 18px}
+.result{max-height:none;overflow:visible;overflow-wrap:anywhere}
+.result h3,.result h4{color:#036b91;margin:16px 0 10px}
+.result p,.result li{line-height:1.8;margin:5px 0}
+.result ul{padding-left:22px;margin:8px 0 16px}
+.plan-heading{padding:16px;background:#eafaff;border-radius:14px;margin-bottom:18px}
+.itinerary-day{border-left:4px solid #38bdf8;padding:10px 14px;margin:12px 0;background:#fff;border-radius:0 12px 12px 0;box-shadow:0 4px 14px rgba(0,100,150,.06)}
+.day-note{font-size:13px;color:#64748b}
+.budget-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.budget-grid>div{display:flex;justify-content:space-between;gap:10px;padding:12px;background:#fff;border:1px solid #e0f2fe;border-radius:10px}
+.budget-grid span{color:#64748b}.budget-grid b{color:#0369a1;white-space:nowrap}
+.budget-grid .budget-total{grid-column:1/-1;background:#eafaf4;border-color:#b7efda}
+.budget-warning{background:#fff7ed;padding:12px;border-radius:10px;color:#9a3412!important}
+#mapBox{flex-wrap:wrap;align-items:flex-start}
+.map-svg{width:min(600px,100%);height:auto;min-width:0;flex:1 1 420px}
+.city-card{width:min(300px,100%);min-height:220px;flex:1 1 250px;overflow-wrap:anywhere}
+.city-card ul{padding-left:20px}.city-card li{margin:6px 0;line-height:1.6}
+.city-theme{color:#0284c7;font-weight:700;margin:8px 0 14px}
+.city-card button{padding:10px 16px;font-size:14px;margin-top:10px}
+@media(max-width:800px){.nav{padding:0 18px}.menu span{margin-left:10px;font-size:12px}.logo{font-size:23px}.hero h1{font-size:48px;letter-spacing:4px}.hero h2{font-size:25px}.hero p{width:auto;max-width:95%;font-size:15px}.section{padding:55px 18px}.title{font-size:30px}.grid{grid-template-columns:1fr}.ai-box{padding:20px}.planner-fields{grid-template-columns:1fr 1fr}.planner-fields label.wide{grid-column:1/-1}#mapBox{padding:16px;gap:18px}.map-svg{flex-basis:100%}.city-card{flex-basis:100%}}
+@media(max-width:480px){.planner-fields{grid-template-columns:1fr}.planner-fields label.wide{grid-column:auto}.nav{height:auto;min-height:65px;flex-wrap:wrap;padding:12px}.menu{display:none}.budget-grid{grid-template-columns:1fr}.budget-grid .budget-total{grid-column:auto}.hero{padding-left:14px;padding-right:14px}}
+
+/* ===== 五大主题旅行模块 ===== */
+.theme-intro{margin:22px 0 12px;text-align:left;color:#164e63;font-weight:700;font-size:17px}
+.theme-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:12px 0 16px;text-align:left}
+.theme-option{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:132px;padding:14px 12px;border:1px solid #d7edf3;border-radius:16px;background:linear-gradient(150deg,#fff,#f2fbff);color:#164e63;box-shadow:0 5px 18px rgba(0,100,130,.06);cursor:pointer;transition:.2s;font-size:14px;line-height:1.5}
+.theme-option:hover,.theme-option.active{border-color:#0ea5a4;background:linear-gradient(145deg,#e7fbf7,#eef9ff);transform:translateY(-2px);box-shadow:0 8px 22px rgba(14,165,164,.13)}
+.theme-option .theme-icon{font-size:25px}.theme-option strong{font-size:14px;line-height:1.45}.theme-option small{color:#647b87;font-size:12px}
+.theme-detail{border:1px solid #d8edf1;background:#f7fcfd;border-radius:18px;padding:18px;text-align:left;margin-bottom:18px}
+.theme-detail h4{font-size:19px;color:#075985;margin:0 0 8px}.theme-detail p{font-size:14px;line-height:1.8;color:#496571;margin:7px 0}
+.theme-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}
+.theme-stat{padding:12px;background:white;border:1px solid #e0f2fe;border-radius:12px;min-width:0}.theme-stat b{display:block;color:#0284c7;font-size:20px;line-height:1.4}.theme-stat span{display:block;color:#64748b;font-size:12px;line-height:1.5}
+.theme-detail .theme-sources{font-size:12px;color:#64748b;margin-top:10px}.theme-detail a{color:#087e8b;text-decoration:underline}
+@media(max-width:900px){.theme-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:520px){.theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-option{min-height:120px}.theme-stats{grid-template-columns:1fr 1fr}.theme-stat:last-child{grid-column:1/-1}}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+
+<div class="nav">
+
+
+<div class="logo">
+
+龙游智链
+
+</div>
+
+
+<div class="menu">
+
+<span>首页</span>
+
+<span>AI规划</span>
+
+<span>数字地图</span>
+
+<span>数据中心</span>
+
+<span onclick="document.getElementById('scenicCarousel').scrollIntoView({behavior:'smooth'})">大美龙江</span>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<section class="hero">
+
+
+<h1>
+
+龙游智链
+
+</h1>
+
+
+<h2>
+
+AI文旅规划智能体平台
+
+</h2>
+
+
+<p>
+
+面向高校大学生文旅创业团队，
+
+利用人工智能智能体技术，
+
+实现龙江文旅资源智能匹配、
+
+线路设计、
+
+研学产品开发和商业方案生成。
+
+</p>
+
+
+
+<div class="ai-box">
+  <h3 style="margin-bottom:18px;color:#164e63">定制你的龙江旅行</h3>
+  <div class="planner-fields">
+    <label>总预算（元）<input id="budget" type="number" min="100" step="100" value="3000" placeholder="例如：3000"></label>
+    <label>出行人数<input id="people" type="number" min="1" max="100" value="2" placeholder="例如：2"></label>
+    <label>游玩天数<input id="days" type="number" min="1" max="30" value="3" placeholder="例如：3"></label>
+    <label class="wide">目的地（以你在此处填写的城市为准，可输入多个，用顿号、逗号或 + 分隔）
+      <input id="destinations" type="text" value="哈尔滨+齐齐哈尔" placeholder="例如：哈尔滨+大庆">
+    </label>
+  </div>
+  <p class="planner-hint"><b>目的地由你做主：</b>可选城市为哈尔滨、齐齐哈尔、大庆、牡丹江、黑河、佳木斯。下方主题仅提供玩法与资源推荐，不会自动增删或替换目的地。预算为规划估算，实际票价、住宿及景区开放情况请出行前核实。</p>
+  <div class="theme-intro">🧭 选择你的主题玩法</div>
+  <div class="theme-grid" id="themeGrid" aria-label="龙江主题旅行选择">
+    <button class="theme-option active" type="button" data-theme="industry" onclick="selectTheme('industry')"><span class="theme-icon">🏭</span><strong>工业文明探源</strong><small>老工业基地 · 石油与制造</small></button>
+    <button class="theme-option" type="button" data-theme="red" onclick="selectTheme('red')"><span class="theme-icon">🔴</span><strong>红色记忆寻访</strong><small>铁人精神 · 历史教育</small></button>
+    <button class="theme-option" type="button" data-theme="ethnic" onclick="selectTheme('ethnic')"><span class="theme-icon">🏺</span><strong>民族与文博文脉</strong><small>民族文化 · 博物馆研学</small></button>
+    <button class="theme-option" type="button" data-theme="wetland" onclick="selectTheme('wetland')"><span class="theme-icon">🪽</span><strong>湿地生态与乡村实践</strong><small>湿地保护 · 农业乡村</small></button>
+    <button class="theme-option" type="button" data-theme="city" onclick="selectTheme('city')"><span class="theme-icon">🏙️</span><strong>城市风物与产业游学</strong><small>城市漫游 · 产业体验</small></button>
+  </div>
+  <div class="theme-detail" id="themeDetail" aria-live="polite"></div>
+  <button onclick="generatePlan()">✨ 生成旅游方案</button>
+  <div class="result" id="result" aria-live="polite">填写预算、人数、天数和目的地后，点击“生成旅游方案”。</div>
+</div>
+
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<div class="title">
+
+AI智能体中心
+
+</div>
+
+
+
+<div class="grid">
+
+
+<button class="card agent-card" type="button" data-agent="0" aria-haspopup="dialog" aria-controls="agentWorkspace"><h3>🗺 AI路线规划Agent</h3><p>根据预算、人数、兴趣，自动生成旅游路线、交通、住宿方案。</p><span class="agent-cta">点击启动智能体 ↗</span></button>
+
+
+
+<button class="card agent-card" type="button" data-agent="1" aria-haspopup="dialog" aria-controls="agentWorkspace"><h3>📚 AI研学设计Agent</h3><p>生成研学目标、课程任务、学生手册和教师方案。</p><span class="agent-cta">点击启动智能体 ↗</span></button>
+
+
+
+<button class="card agent-card" type="button" data-agent="2" aria-haspopup="dialog" aria-controls="agentWorkspace"><h3>🚀 AI创业方案Agent</h3><p>帮助大学生完成文旅创业项目设计。</p><span class="agent-cta">点击启动智能体 ↗</span></button>
+
+
+
+<button class="card agent-card" type="button" data-agent="3" aria-haspopup="dialog" aria-controls="agentWorkspace"><h3>💰 AI预算分析Agent</h3><p>自动计算成本结构和收益预测。</p><span class="agent-cta">点击启动智能体 ↗</span></button>
+
+
+
+<button class="card agent-card" type="button" data-agent="4" aria-haspopup="dialog" aria-controls="agentWorkspace"><h3>📢 AI营销Agent</h3><p>生成宣传文案、推广方案。</p><span class="agent-cta">点击启动智能体 ↗</span></button>
+
+
+
+<button class="card agent-card" type="button" data-agent="5" aria-haspopup="dialog" aria-controls="agentWorkspace"><h3>🌐 AI资源匹配Agent</h3><p>连接龙江景区、文化、教育资源。</p><span class="agent-cta">点击启动智能体 ↗</span></button>
+
+
+</div>
+
+
+</section><!-- ===============================
+     黑龙江数字文旅地图
+================================ -->
+
+
+<section class="section">
+
+
+<div class="title">
+
+龙江数字文旅地图
+
+</div>
+
+
+
+<div id="mapBox">
+
+
+
+<svg class="map-svg" viewBox="0 0 700 500" role="img" aria-label="黑龙江省数字文旅地图">
+  <title>黑龙江省简化地理轮廓与六座城市位置</title>
+  <!-- 依据黑龙江省行政边界经纬度简化绘制；城市点按市区中心经纬度投影。 -->
+  <path class="province" d="M 152.4 35.6 L 213.9 26.3 L 248.4 46.8 L 268.1 46.8 L 282.8 59.9 L 290.2 80.5 L 295.1 86.1 L 292.7 95.4 L 305.0 119.7 L 305.0 130.9 L 314.8 145.8 L 324.7 168.2 L 322.2 183.2 L 329.6 194.4 L 356.7 196.3 L 376.4 201.9 L 398.5 226.1 L 410.8 226.1 L 415.7 250.4 L 420.7 276.6 L 462.5 274.7 L 489.6 257.9 L 509.3 246.7 L 533.9 244.8 L 519.1 263.5 L 524.0 276.6 L 519.1 285.9 L 509.3 299.0 L 499.4 325.1 L 482.2 368.1 L 472.3 388.6 L 445.3 375.6 L 435.4 388.6 L 420.7 396.1 L 428.0 429.7 L 425.6 444.7 L 428.0 455.9 L 415.7 457.7 L 405.9 448.4 L 401.0 433.5 L 391.1 439.1 L 386.2 437.2 L 371.4 440.9 L 369.0 450.3 L 359.1 452.1 L 349.3 426.0 L 346.8 412.9 L 337.0 418.5 L 337.0 427.9 L 327.1 427.9 L 322.2 407.3 L 309.9 407.3 L 307.5 399.8 L 309.9 390.5 L 305.0 384.9 L 295.1 379.3 L 280.4 383.0 L 273.0 377.4 L 270.5 368.1 L 253.3 373.7 L 248.4 368.1 L 233.6 371.8 L 223.8 358.7 L 221.3 338.2 L 201.6 338.2 L 196.7 323.3 L 211.5 319.5 L 209.0 306.5 L 206.6 310.2 L 196.7 317.7 L 179.5 289.6 L 231.2 241.1 L 236.1 257.9 L 245.9 214.9 L 258.2 213.1 L 255.8 185.1 L 273.0 155.2 L 273.0 145.8 L 280.4 134.6 L 260.7 108.5 L 253.3 108.5 L 248.4 119.7 L 238.5 119.7 L 233.6 123.4 L 213.9 119.7 L 204.1 125.3 L 194.3 121.6 L 184.4 89.8 L 186.9 82.3 L 172.1 71.1 L 167.2 80.5 L 159.8 80.5 L 157.3 74.9 L 145.0 69.3 L 162.3 48.7 L 152.4 35.6 Z" />
+  <g class="map-city" aria-label="哈尔滨">
+    <circle class="city-point" cx="294.4" cy="356.3" r="14" role="button" tabindex="0" aria-label="查看哈尔滨文旅资源" onclick="cityInfo('哈尔滨')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();cityInfo('哈尔滨')}" />
+    <text x="310.4" y="361.3">哈尔滨</text>
+  </g>
+  <g class="map-city" aria-label="齐齐哈尔">
+    <circle class="city-point" cx="221.1" cy="290.4" r="14" role="button" tabindex="0" aria-label="查看齐齐哈尔文旅资源" onclick="cityInfo('齐齐哈尔')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();cityInfo('齐齐哈尔')}" />
+    <text x="237.1" y="295.4">齐齐哈尔</text>
+  </g>
+  <g class="map-city" aria-label="大庆">
+    <circle class="city-point" cx="254.3" cy="322.9" r="14" role="button" tabindex="0" aria-label="查看大庆文旅资源" onclick="cityInfo('大庆')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();cityInfo('大庆')}" />
+    <text x="270.3" y="327.9">大庆</text>
+  </g>
+  <g class="map-city" aria-label="牡丹江">
+    <circle class="city-point" cx="381.1" cy="409.6" r="14" role="button" tabindex="0" aria-label="查看牡丹江文旅资源" onclick="cityInfo('牡丹江')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();cityInfo('牡丹江')}" />
+    <text x="397.1" y="414.6">牡丹江</text>
+  </g>
+  <g class="map-city" aria-label="黑河">
+    <circle class="city-point" cx="322.2" cy="167.6" r="14" role="button" tabindex="0" aria-label="查看黑河文旅资源" onclick="cityInfo('黑河')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();cityInfo('黑河')}" />
+    <text x="338.2" y="162.6">黑河</text>
+  </g>
+  <g class="map-city" aria-label="佳木斯">
+    <circle class="city-point" cx="400.3" cy="314.0" r="14" role="button" tabindex="0" aria-label="查看佳木斯文旅资源" onclick="cityInfo('佳木斯')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();cityInfo('佳木斯')}" />
+    <text x="416.3" y="319.0">佳木斯</text>
+  </g>
+</svg>
+
+
+
+
+<div class="city-card"
+
+id="cityCard">
+
+
+点击城市节点，
+
+查看AI文旅资源分析。
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<!-- ===============================
+     数据驾驶舱
+================================ -->
+
+
+
+<section class="section">
+
+
+<div class="title">
+
+AI文旅数据驾驶舱
+
+</div>
+
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<h3>
+
+3568
+
+</h3>
+
+
+<p>
+
+龙江文旅资源数据库
+
+</p>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>
+
+128
+
+</h3>
+
+
+<p>
+
+AI智能生成线路
+
+</p>
+
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>
+
+76
+
+</h3>
+
+
+<p>
+
+研学产品方案
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<br><br>
+
+
+
+
+<div class="grid">
+
+
+<div class="card">
+
+
+<h3>
+
+冰雪资源分析
+
+</h3>
+
+
+<p>
+
+❄ 冰雪旅游 30%
+
+<br>
+
+🏭 工业文化 25%
+
+<br>
+
+🔴 红色资源 20%
+
+<br>
+
+🌲 生态资源 15%
+
+<br>
+
+🌏 边境文化 10%
+
+</p>
+
+
+
+</div>
+
+
+
+
+<div class="card">
+
+
+<h3>
+
+用户需求画像
+
+</h3>
+
+
+<p>
+
+
+<b>高校研学团队</b><br>
+核心需求：研学课程、场馆讲解、团队接待
+
+<br><br>
+
+<b>青年旅游用户</b><br>
+核心需求：冰雪体验、城市漫游、个性化路线
+
+<br><br>
+
+<b>地方文旅机构</b><br>
+核心需求：资源整合、主题线路、宣传推广
+
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h3>
+
+AI运营数据
+
+</h3>
+
+
+<p>
+
+
+本月生成方案：
+
+328份
+
+
+<br>
+
+
+合作资源：
+
+42家
+
+
+<br>
+
+
+服务团队：
+
+16个
+
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<!-- ===============================
+     大美龙江风景轮播
+================================ -->
+<section class="section scenic-section" id="scenicCarousel">
+  <div class="scenic-intro">
+    <span class="scenic-eyebrow">DISCOVER HEILONGJIANG · 大美龙江</span>
+    <h2>欢迎大家来到大美龙江</h2>
+    <p>从冰雪童话到湿地鹤舞，从火山湖泊到林海雪原，四季风光各有韵味。选一处心动风景，开启你的龙江之旅。</p>
+  </div>
+
+  <div class="scenic-carousel" aria-label="黑龙江风景图片轮播">
+    <div class="scenic-track" id="scenicTrack" aria-live="polite">
+      <article class="scenic-slide is-active" data-index="0">
+        <img src="https://d2nnykqiaju69u.cloudfront.net/pslife_photos/Maricel_temp/Sunday%20Life/1-2026-Feb-1/LS%20AA%20Saint%20Sophia%20Cathedral%C2%A0.jpg" alt="哈尔滨圣索菲亚教堂与城市建筑" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('image-unavailable')">
+        <div class="scenic-caption"><span>城市人文</span><h3>哈尔滨 · 欧陆风情</h3><p>漫步百年街区，感受建筑与城市历史交织的独特气息。</p></div>
+      </article>
+      <article class="scenic-slide" data-index="1" aria-hidden="true">
+        <img src="https://img.pconline.com.cn/images/upload/upc/tx/photoblog/1111/11/c2/9582556_9582556_1321005518640.jpg" alt="齐齐哈尔扎龙湿地丹顶鹤景观" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('image-unavailable')">
+        <div class="scenic-caption"><span>湿地生态</span><h3>齐齐哈尔 · 扎龙鹤舞</h3><p>走近辽阔湿地，欣赏丹顶鹤与北国水泽的自然之美。</p></div>
+      </article>
+      <article class="scenic-slide" data-index="2" aria-hidden="true">
+        <img src="https://img.pconline.com.cn/images/upload/upc/tx/photoblog/2412/10/c0/468683894_1733794856653.jpg" alt="牡丹江镜泊湖大瀑布风光" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('image-unavailable')">
+        <div class="scenic-caption"><span>山水风光</span><h3>牡丹江 · 镜泊飞瀑</h3><p>湖光山色与奔流瀑布相映成景，感受自然的开阔与壮美。</p></div>
+      </article>
+      <article class="scenic-slide" data-index="3" aria-hidden="true">
+        <img src="https://www.hkcd.com.hk/userfiles/1561188752.jpg" alt="黑河五大连池火山地貌与湖泊倒影" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('image-unavailable')">
+        <div class="scenic-caption"><span>火山地貌</span><h3>黑河 · 五大连池</h3><p>探访火山地质奇观，在湖泊与石海之间读懂大地的印记。</p></div>
+      </article>
+      <article class="scenic-slide" data-index="4" aria-hidden="true">
+        <img src="https://static.wixstatic.com/media/ef60af_5e978c281cf54880bf7e1fdceae314f9~mv2.jpeg/v1/fill/w_980%2Ch_654%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/ef60af_5e978c281cf54880bf7e1fdceae314f9~mv2.jpeg" alt="漠河北极村冬日雪景与落日" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('image-unavailable')">
+        <div class="scenic-caption"><span>北国冬景</span><h3>漠河 · 北国雪乡</h3><p>在林海、雪原与边陲村落之间，遇见纯净辽阔的北国冬日。</p></div>
+      </article>
+      <article class="scenic-slide" data-index="5" aria-hidden="true">
+        <img src="https://www.tongjiang.gov.cn/tjs/c101786/202511/223933/images/%E4%B8%89%E6%B1%9F%E5%8F%A3%E6%B9%BF%E5%9C%B0%E5%85%AC%E5%9B%AD.jpg" alt="佳木斯三江口湿地日出与木质观景塔" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('image-unavailable')">
+        <div class="scenic-caption"><span>江河湿地</span><h3>佳木斯 · 三江湿地</h3><p>晨雾与江流铺展成画，在湿地静谧中感受自然的呼吸。</p></div>
+      </article>
+      <article class="scenic-slide" data-index="6" aria-hidden="true">
+        <img src="https://www.chinadailyhk.com/upload/main/image/2025/02/20/e90db00c7f7b62df88a4f32f9bb92752.jpg" alt="亚布力滑雪度假区雪山与缆车" referrerpolicy="no-referrer" onerror="this.style.display='none';this.parentElement.classList.add('image-unavailable')">
+        <div class="scenic-caption"><span>冰雪运动</span><h3>亚布力 · 林海雪山</h3><p>走进雪山与森林，体验龙江冬季旅游的速度与激情。</p></div>
+      </article>
+    </div>
+
+    <button class="scenic-arrow scenic-prev" id="scenicPrev" type="button" aria-label="上一张风景">‹</button>
+    <button class="scenic-arrow scenic-next" id="scenicNext" type="button" aria-label="下一张风景">›</button>
+    <div class="scenic-counter"><span id="scenicCurrent">01</span><i></i><span>07</span></div>
+  </div>
+
+  <div class="scenic-controls" aria-label="选择风景图片">
+    <button class="scenic-dot is-active" type="button" data-slide="0" aria-label="第1张：哈尔滨" aria-current="true"></button>
+    <button class="scenic-dot" type="button" data-slide="1" aria-label="第2张：齐齐哈尔"></button>
+    <button class="scenic-dot" type="button" data-slide="2" aria-label="第3张：牡丹江"></button>
+    <button class="scenic-dot" type="button" data-slide="3" aria-label="第4张：黑河"></button>
+    <button class="scenic-dot" type="button" data-slide="4" aria-label="第5张：漠河"></button>
+    <button class="scenic-dot" type="button" data-slide="5" aria-label="第6张：佳木斯"></button>
+    <button class="scenic-dot" type="button" data-slide="6" aria-label="第7张：亚布力"></button>
+    <span class="scenic-autoplay"><span class="autoplay-led"></span>风景自动轮播中</span>
+  </div>
+</section>
+
+<style>
+
+
+
+/* 大美龙江风景轮播 */
+.scenic-section{padding-top:76px;padding-bottom:96px;background:linear-gradient(180deg,#f5fcff 0%,#fff 45%,#effbf5 100%);}
+.scenic-intro{max-width:900px;margin:0 auto 34px;text-align:center;}
+.scenic-eyebrow{display:inline-block;margin-bottom:13px;color:#078a94;font-size:12px;font-weight:800;letter-spacing:4px;}
+.scenic-intro h2{margin:0 0 16px;color:#134e5e;font-size:clamp(30px,4vw,46px);letter-spacing:2px;}
+.scenic-intro p{max-width:760px;margin:0 auto;color:#55717c;font-size:16px;line-height:1.9;}
+.scenic-carousel{position:relative;max-width:1180px;margin:0 auto;border-radius:28px;overflow:hidden;background:#dcecf0;box-shadow:0 24px 65px rgba(16,75,92,.2);isolation:isolate;}
+.scenic-track{position:relative;width:100%;aspect-ratio:2.05/1;min-height:320px;max-height:600px;}
+.scenic-slide{background:linear-gradient(135deg,#174c5b,#65a8a0 48%,#c2dcd0);position:absolute;inset:0;opacity:0;visibility:hidden;transform:scale(1.025);transition:opacity .8s ease,transform 5s ease,visibility .8s;}
+.scenic-slide.is-active{opacity:1;visibility:visible;transform:scale(1);z-index:1;}
+.scenic-slide::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,25,34,.66) 0%,rgba(4,25,34,.28) 46%,rgba(4,25,34,.02) 100%),linear-gradient(0deg,rgba(4,25,34,.46),transparent 56%);pointer-events:none;}
+.scenic-slide img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;}
+.scenic-caption{position:absolute;z-index:2;left:clamp(25px,6.2vw,78px);bottom:clamp(32px,7vw,76px);width:min(590px,76%);color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.2);}
+.scenic-caption span{display:inline-block;padding:7px 13px;margin-bottom:16px;border:1px solid rgba(255,255,255,.58);border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(7px);font-size:13px;letter-spacing:1px;}
+.scenic-caption h3{margin:0 0 12px;font-size:clamp(27px,4vw,48px);line-height:1.25;color:#fff;letter-spacing:1px;}
+.scenic-caption p{max-width:510px;margin:0;font-size:clamp(14px,1.5vw,17px);line-height:1.9;color:rgba(255,255,255,.93);}
+.scenic-arrow{position:absolute;top:50%;z-index:5;display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid rgba(255,255,255,.65);border-radius:50%;background:rgba(6,42,53,.28);color:white;font-size:38px;line-height:1;transform:translateY(-50%);backdrop-filter:blur(8px);transition:background .2s,transform .2s;}
+.scenic-arrow:hover{background:rgba(5,50,64,.72);transform:translateY(-50%) scale(1.06);}
+.scenic-prev{left:20px;}.scenic-next{right:20px;}
+.scenic-counter{position:absolute;z-index:5;right:28px;bottom:25px;display:flex;align-items:center;gap:10px;color:white;font-size:13px;letter-spacing:1px;text-shadow:0 2px 8px #223;}
+.scenic-counter i{display:block;width:42px;height:1px;background:rgba(255,255,255,.7);}
+.scenic-controls{max-width:1180px;display:flex;align-items:center;justify-content:center;gap:10px;margin:22px auto 0;flex-wrap:wrap;}
+.scenic-dot{width:9px;height:9px;min-width:9px;padding:0;border:0;border-radius:50%;background:#b9d2d8;box-shadow:none;transition:width .25s,background .25s;border-radius:20px;}
+.scenic-dot.is-active{width:30px;background:#1297a0;}
+.scenic-autoplay{display:inline-flex;align-items:center;gap:8px;margin-left:12px;color:#64808a;font-size:13px;}
+.autoplay-led{width:7px;height:7px;border-radius:50%;background:#2bbf8a;box-shadow:0 0 0 4px rgba(43,191,138,.13);}
+.scenic-carousel:focus-within .scenic-arrow{outline:2px solid #fff;outline-offset:2px;}
+@media(max-width:850px){.scenic-section{padding:58px 20px 68px}.scenic-track{aspect-ratio:1.28/1;min-height:350px}.scenic-caption{width:80%;left:26px;bottom:42px}.scenic-caption p{max-width:420px}.scenic-prev{left:12px}.scenic-next{right:12px}.scenic-arrow{width:40px;height:40px;font-size:31px}.scenic-counter{right:18px;bottom:15px}}
+@media(max-width:520px){.scenic-section{padding-left:14px;padding-right:14px}.scenic-intro h2{letter-spacing:0}.scenic-intro p{font-size:14px}.scenic-track{aspect-ratio:4/5;min-height:410px;max-height:550px}.scenic-slide::after{background:linear-gradient(0deg,rgba(4,25,34,.78) 0%,rgba(4,25,34,.3) 47%,rgba(4,25,34,.02) 100%)}.scenic-caption{left:22px;bottom:48px;width:calc(100% - 44px)}.scenic-caption h3{font-size:30px}.scenic-caption p{font-size:14px}.scenic-prev{left:12px;top:43%}.scenic-next{right:12px;top:43%}.scenic-counter{display:none}.scenic-autoplay{width:100%;justify-content:center;margin:8px 0 0}}
+@media(prefers-reduced-motion:reduce){.scenic-slide,.scenic-arrow,.scenic-dot{transition:none!important}.scenic-slide.is-active{transform:none}}
+
+/* 地图 */
+
+
+#mapBox{
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+align-items:center;
+
+
+gap:50px;
+
+
+padding:40px;
+
+
+
+background:
+
+linear-gradient(
+135deg,
+#e8f9ff,
+#ffffff
+);
+
+
+border-radius:30px;
+
+
+
+}
+
+
+
+
+
+.map-svg{
+
+
+width:600px;
+
+
+height:450px;
+
+
+}
+
+
+
+
+
+.province{
+
+
+fill:#dff6ff;
+
+
+stroke:#38bdf8;
+
+
+stroke-width:6;
+
+
+filter:
+
+drop-shadow(
+0 10px 20px rgba(56,189,248,.25)
+);
+
+
+
+}
+
+
+
+
+.city-point{
+
+
+fill:#34d399;
+
+
+stroke:white;
+
+
+stroke-width:4;
+
+
+cursor:pointer;
+
+
+animation:pulse 2s infinite;
+
+
+}
+
+
+
+.city-point:hover{
+
+
+fill:#fb923c;
+
+
+}
+
+
+
+
+
+@keyframes pulse{
+
+
+0%{
+
+r:12;
+
+}
+
+
+50%{
+
+r:18;
+
+}
+
+
+100%{
+
+r:12;
+
+}
+
+
+}
+
+
+
+svg text{
+
+
+font-size:18px;
+
+
+font-weight:bold;
+
+
+fill:#16708c;
+
+
+}
+
+
+
+
+
+.city-card{
+
+
+width:300px;
+
+
+padding:30px;
+
+
+background:white;
+
+
+border-radius:25px;
+
+
+box-shadow:
+
+0 15px 40px rgba(0,150,200,.15);
+
+
+line-height:2;
+
+
+color:#345;
+
+
+
+}
+
+
+
+
+</style><script>
+
+
+// ==========================
+// AI路线生成
+// ==========================
+
+
+const themeData = {
+  industry:{title:"工业文明探源",icon:"🏭",intro:"从近代铁路与装备制造，到大庆油田和现代工业，沿着龙江工业发展的真实足迹开展参访、访谈与工程启蒙。",cities:["哈尔滨","大庆","齐齐哈尔"],stops:["中东铁路相关历史遗存（按开放安排参观）","大庆油田历史陈列及铁人王进喜纪念馆","中国一重相关工业资源（须提前联系确认）"],stats:[{value:"2,971万吨",label:"2024年黑龙江原油产量"},{value:"8项",label:"2025年公布的省级工业遗产入选项目"},{value:"30个",label:"哈尔滨首批特色工业旅游点位"}],source:[{label:"黑龙江省2024年统计公报",url:"https://hlj.gov.cn/hlj/c108419/202504/c00_31866784.shtml"},{label:"省级工业遗产名单报道",url:"https://www.hlj.gov.cn/hlj/c107858/202512/c00_31896534.shtml"},{label:"哈尔滨30个工业旅游点位",url:"https://www.hlj.gov.cn/hlj/c107858/202509/c00_31876005.shtml"}],note:"工业企业生产区通常不对散客直接开放；预约、安保要求及可参观范围以场馆或企业答复为准。"},
+  red:{title:"红色记忆寻访",icon:"🔴",intro:"围绕东北抗联历史、革命纪念场馆与大庆石油会战记忆，设计史料阅读、主题讲解、口述访谈和实践反思任务。",cities:["大庆","哈尔滨","黑河"],stops:["大庆铁人王进喜纪念馆","哈尔滨东北烈士纪念馆及相关红色史迹","黑河瑷珲历史文化相关场馆"],stats:[{value:"大庆",label:"石油会战与铁人精神主题实践"},{value:"哈尔滨",label:"东北抗联与城市革命历史资源"},{value:"黑河",label:"边疆历史与爱国主义教育资源"}],source:[{label:"黑龙江省文旅厅文旅名录",url:"https://wlt.hlj.gov.cn/wlt/c114266/common_list.shtml"},{label:"黑龙江省政府门户网站",url:"https://www.hlj.gov.cn/"}],note:"各场馆开放时间、讲解预约和展陈安排可能调整，请出行前查询官方公告；本主题中的点位为路线建议，不代表已预约。"},
+  ethnic:{title:"民族与文博文脉",icon:"🏺",intro:"以民族博物馆、地方历史展陈与非遗体验为线索，认识黑龙江多民族交往交流交融的历史及地方文化。",cities:["佳木斯","齐齐哈尔","哈尔滨"],stops:["佳木斯市域赫哲族文化资源（街津口、八岔等点位需另行规划交通）","齐齐哈尔达斡尔族文化资源","黑龙江省民族博物馆及城市博物馆资源"],stats:[{value:"55个",label:"第七次全国人口普查口径下的少数民族"},{value:"约112万人",label:"同一人口普查口径下少数民族人口"},{value:"3,805人",label:"省政府页面所列赫哲族人口"}],source:[{label:"黑龙江省民族分布",url:"https://www.hlj.gov.cn/hlj/c108501/list_left_tt.shtml"},{label:"黑龙江省赫哲族介绍",url:"https://www.hlj.gov.cn/hlj/c108504/202503/c00_31820373.shtml"},{label:"黑龙江省文旅厅非遗名录",url:"https://wlt.hlj.gov.cn/wlt/c114266/common_list.shtml"}],note:"民族人口数据采用官方页面引用的第七次全国人口普查等口径，不应理解为实时人口。进入村落或开展非遗体验，请尊重当地习俗并提前联系接待方。"},
+  wetland:{title:"湿地生态与乡村实践",icon:"🪽",intro:"从扎龙丹顶鹤、三江平原湿地到乡村农业场景，把生态观察、自然笔记、湿地保护和乡村产业调研组合成实践课程。",cities:["齐齐哈尔","佳木斯","牡丹江"],stops:["扎龙国家级自然保护区（遵守保护区游览规则）","三江平原湿地与赫哲族文化相关点位","结合当地实际预约农业或乡村实践活动"],stats:[{value:"514.3万公顷",label:"黑龙江省全口径湿地面积"},{value:"12处",label:"官方页面所列国际重要湿地"},{value:"103处",label:"官方页面所列湿地类型自然保护区"}],source:[{label:"黑龙江省湿地资源介绍",url:"https://www.hlj.gov.cn/hlj/c108490/list_left_tt.shtml"},{label:"黑龙江省赫哲族介绍",url:"https://www.hlj.gov.cn/hlj/c108504/202503/c00_31820373.shtml"}],note:"生态观测应遵守保护区规定，不投喂、不追逐野生动物，不进入封闭区域；乡村实践活动需提前确认接待条件与季节安排。"},
+  city:{title:"城市风物与产业游学",icon:"🏙️",intro:"把城市街区、建筑遗产、地方饮食、博物馆和产业资源串成一条可体验、可访谈、可记录的城市学习路线。",cities:["哈尔滨","大庆","齐齐哈尔"],stops:["哈尔滨中央大街、圣·索菲亚教堂周边历史建筑与城市街区","哈尔滨特色工业旅游点位（按开放安排选择）","大庆石油工业主题资源或齐齐哈尔地方文化资源"],stats:[{value:"30个",label:"哈尔滨首批特色工业旅游点位"},{value:"5条",label:"同期发布的工业旅游精品线路"},{value:"8项",label:"2025年省级工业遗产入选项目"}],source:[{label:"哈尔滨工业旅游点位与线路",url:"https://www.hlj.gov.cn/hlj/c107858/202509/c00_31876005.shtml"},{label:"2025年度省级工业遗产名单报道",url:"https://www.hlj.gov.cn/hlj/c107858/202512/c00_31896534.shtml"}],note:"产业参访以公开开放的展馆、体验空间为主；企业生产区域需提前取得许可。城市街区游览及消费费用请按出行日期核实。"}
+};
+let activeTheme = "industry";
+function selectTheme(key){
+  const theme=themeData[key]; if(!theme) return; activeTheme=key;
+  document.querySelectorAll('.theme-option').forEach(btn=>btn.classList.toggle('active',btn.dataset.theme===key));
+  // 主题只改变玩法推荐与方案主题，不得自动改写用户已选目的地。
+  const detail=document.getElementById('themeDetail');
+  detail.innerHTML=`<h4>${theme.icon} ${theme.title}</h4><p>${theme.intro}</p><p><b>主题推荐城市（仅供参考）：</b>${theme.cities.join(' · ')}</p><p><b>可规划的实地资源：</b>${theme.stops.join('；')}</p><div class="theme-stats">${theme.stats.map(x=>`<div class="theme-stat"><b>${x.value}</b><span>${x.label}</span></div>`).join('')}</div><p>${theme.note}</p><div class="theme-sources"><b>数据与资料来源：</b>${theme.source.map(x=>`<a href="${x.url}" target="_blank" rel="noopener noreferrer">${x.label}</a>`).join(' · ')}</div><p class="planner-hint"><b>提示：</b>以上城市和资源是主题灵感推荐，不会添加到你的目的地。当前目的地仍以“目的地”输入框中的内容为准。</p>`;
+}
+
+const cityData = {
+  "哈尔滨": {icon:"❄️",theme:"冰雪文化与欧陆风情",resources:["中央大街历史文化街区","圣·索菲亚教堂周边建筑风貌","松花江沿岸城市景观","冰雪大世界（季节性开放，需核实）"],tips:"适合城市漫游、建筑文化、冰雪主题体验。冬季冰雪项目通常具有季节性。"},
+  "齐齐哈尔": {icon:"🪽",theme:"湿地生态与工业研学",resources:["扎龙国家级自然保护区（丹顶鹤与湿地生态）","中国一重相关工业资源（开放安排需提前联系）","达斡尔族文化体验资源"],tips:"适合湿地观鸟、生态科普、工业文化研学；保护区活动及企业参观需以官方安排为准。"},
+  "大庆": {icon:"🛢️",theme:"石油工业与铁人精神",resources:["铁人王进喜纪念馆","大庆油田历史陈列相关资源","连环湖温泉景区（按季节和营业情况核实）"],tips:"适合石油工业文化、红色教育、温泉休闲组合。"},
+  "牡丹江": {icon:"🌲",theme:"森林生态与林海雪原",resources:["镜泊湖风景区","雪乡相关旅游资源（季节性、距离较远）","林海雪原文化主题资源"],tips:"适合湖泊风光、森林生态和冬季冰雪体验；跨县景点需额外预留交通时间。"},
+  "黑河": {icon:"🌏",theme:"边境风情与火山地貌",resources:["五大连池风景区（位于黑河市域，需安排城际交通）","瑷珲历史文化相关场馆","黑龙江沿岸边境城市景观"],tips:"适合边境文化、历史教育和地质科普；五大连池与黑河市区并非同一片区，需单独安排交通。"},
+  "佳木斯": {icon:"🌊",theme:"三江湿地与赫哲族文化",resources:["三江平原湿地生态资源","赫哲族文化体验资源（具体村落需规划交通）","松花江沿岸城市景观"],tips:"适合湿地生态、民族文化与江河风光体验；部分民族文化点位位于市域周边，建议预留半天以上交通时间。"}
+};
+const cityNames = Object.keys(cityData);
+function parseDestinations(raw){
+  const found=[];
+  cityNames.forEach(c=>{ if(raw.includes(c) && !found.includes(c)) found.push(c); });
+  return found;
+}
+function money(n){ return '¥'+Math.round(n).toLocaleString('zh-CN'); }
+function generatePlan(){
+  const budget=Number(document.getElementById('budget').value);
+  const people=Number(document.getElementById('people').value);
+  const days=Number(document.getElementById('days').value);
+  const raw=document.getElementById('destinations').value.trim();
+  const cities=parseDestinations(raw);
+  const result=document.getElementById('result');
+  if(!Number.isFinite(budget)||budget<100||!Number.isInteger(people)||people<1||!Number.isInteger(days)||days<1||days>30){
+    result.innerHTML='<h3>请检查输入</h3><p>预算至少为100元；人数为1—100的整数；天数为1—30的整数。</p>'; return;
+  }
+  if(!cities.length){ result.innerHTML='<h3>暂未识别到目的地</h3><p>请从地图中的六个城市选择：哈尔滨、齐齐哈尔、大庆、牡丹江、黑河、佳木斯。可以输入“哈尔滨+大庆”。</p>'; return; }
+  const selected=cities.slice(0,Math.min(cities.length,days));
+  const cityCount=selected.length;
+  const daysPerCity=Array(cityCount).fill(Math.floor(days/cityCount));
+  for(let i=0;i<days%cityCount;i++) daysPerCity[i]++;
+  // 规划级估算：不调用实时票价接口；随人数、天数、城市数与预算动态变化。
+  const intercityPerPerson=Math.max(0,cityCount-1)*150;
+  const transport=people*(intercityPerPerson+days*35);
+  const lodging=people*Math.max(0,days-1)*180;
+  const meals=people*days*100;
+  const tickets=people*days*70;
+  const total=transport+lodging+meals+tickets;
+  const factor=budget/Math.max(total,1);
+  const mode=factor<0.75?'节约型：优先公共交通、平价餐饮，减少付费项目':factor<1.15?'均衡型：按基础住宿、餐饮和代表性景点安排':'舒适型：可适度提高住宿与体验项目预算';
+  const perPerson=budget/people;
+  let remainingDay=1;
+  let itinerary='';
+  selected.forEach((city,idx)=>{
+    const d=daysPerCity[idx];
+    for(let j=0;j<d;j++){
+      const day=remainingDay++;
+      const items=cityData[city].resources;
+      const a=items[(j*2)%items.length];
+      const b=items[(j*2+1)%items.length] || items[0];
+      itinerary += `<article class="itinerary-day"><h4>第${day}天｜${city} · ${cityData[city].theme}</h4><p><b>上午：</b>${a}</p><p><b>下午：</b>${b}</p><p><b>晚上：</b>${j===d-1&&idx<selected.length-1?'整理行程，准备前往下一站；提前核对车次。':'自由活动，品尝当地特色餐饮或进行城市漫步。'}</p><p class="day-note">${cityData[city].tips}</p></article>`;
+    }
+  });
+  const estimateTotal=Math.round(total);
+  const budgetWarning=budget<estimateTotal?`<p class="budget-warning">提示：按当前基础估算，总预算可能不足约 ${money(estimateTotal-budget)}。可减少城市数量、缩短天数或选择更经济的住宿与交通。</p>`:`<p>预算余量参考：${money(budget-estimateTotal)}（可用于机动开支、购物或升级体验）。</p>`;
+  const theme=themeData[activeTheme];
+  const themeTask=`<h4>主题实践任务｜${theme.title}</h4><p>${theme.intro}</p><ul>${theme.stops.map(x=>`<li>${x}</li>`).join('')}</ul><p class="day-note">${theme.note}</p>`;
+  const content=`<div class="plan-heading"><h3>🧭 ${theme.title}｜${selected.join('—')} · ${days}日游方案</h3><p>适用人数：${people}人　｜　总预算：${money(budget)}　｜　人均预算：${money(perPerson)}</p><p><b>规划建议：</b>${mode}</p><p><b>主题方向：</b>${theme.intro}</p></div>
+  <h4>一、行程安排</h4>${itinerary}
+  ${themeTask}<h4>二、预算测算（估算值）</h4><div class="budget-grid"><div><span>市内及城际交通</span><b>${money(transport)}</b></div><div><span>住宿</span><b>${money(lodging)}</b></div><div><span>餐饮</span><b>${money(meals)}</b></div><div><span>门票及体验</span><b>${money(tickets)}</b></div><div class="budget-total"><span>基础费用合计</span><b>${money(estimateTotal)}</b></div></div>${budgetWarning}
+  <h4>三、出行提醒</h4><ul><li>本方案根据输入的城市、人数、天数和预算动态生成，费用是规划估算，不是实时价格或预订报价。</li><li>跨城市交通按每人每次约150元作粗略占位估算，市内交通按每天每人约35元估算；实际费用受日期、交通方式和路线影响。</li><li>住宿按每人每晚约180元、餐饮按每人每天约100元、景点及体验按每人每天约70元估算；团队拼房、免费景点等会改变实际花费。</li><li>出发前请核对景区开放时间、预约要求、铁路/公路班次、天气及季节性项目。企业参观和部分研学点需提前联系。</li></ul>
+  <p class="source-note">主题数据来自各模块列出的黑龙江省政府、省文旅厅等公开资料；统计口径与发布日期以原文为准。景点和参访点为路线建议，非实时开放状态或预约确认。本页面为前端演示，不接入实时票价或在线预订系统。</p>
+  <button type="button" onclick="exportPlan()">导出完整方案（TXT）</button>`;
+  result.innerHTML=content;
+  window.currentPlanText=result.innerText;
+}
+function exportPlan(){
+  const text=window.currentPlanText || document.getElementById('result').innerText;
+  if(!text || text.includes('填写预算')){ alert('请先生成旅游方案。'); return; }
+  const blob=new Blob(['龙游智链｜龙江文旅旅游方案\n\n'+text],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='龙游智链_龙江旅游方案.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+
+selectTheme('industry');
+
+// ==========================
+// 城市资源点击
+// ==========================
+
+
+
+function cityInfo(city){
+  const card=document.getElementById('cityCard');
+  const data=cityData[city];
+  if(!card) return;
+  if(!data){ card.innerHTML='<h3>城市信息暂不可用</h3><p>请重新点击地图中的城市节点。</p>'; return; }
+  card.innerHTML=`<h3>${data.icon} ${city}</h3><p class="city-theme">${data.theme}</p><h4>文旅资源方向</h4><ul>${data.resources.map(item=>`<li>${item}</li>`).join('')}</ul><h4>线路建议</h4><p>${data.tips}</p><button type="button" onclick="selectCity('${city}')">加入旅游规划</button>`;
+  card.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function selectCity(city){
+  const input=document.getElementById('destinations');
+  const existing=parseDestinations(input.value);
+  if(!existing.includes(city)) existing.push(city);
+  input.value=existing.join('+');
+  document.querySelector('.ai-box').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+
+// 风景轮播：自动切换、左右按钮、圆点定位、悬停暂停与触屏滑动。
+(function initScenicCarousel(){
+  const root=document.getElementById('scenicCarousel');
+  if(!root) return;
+  const slides=Array.from(root.querySelectorAll('.scenic-slide'));
+  const dots=Array.from(root.querySelectorAll('.scenic-dot'));
+  const currentLabel=document.getElementById('scenicCurrent');
+  const prev=document.getElementById('scenicPrev');
+  const next=document.getElementById('scenicNext');
+  if(!slides.length) return;
+  let index=0, timer=null, touchStartX=null;
+  const reducedMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function showSlide(nextIndex){
+    index=(nextIndex+slides.length)%slides.length;
+    slides.forEach((slide,i)=>{
+      const active=i===index;
+      slide.classList.toggle('is-active',active);
+      slide.setAttribute('aria-hidden',active?'false':'true');
+    });
+    dots.forEach((dot,i)=>{
+      const active=i===index;
+      dot.classList.toggle('is-active',active);
+      if(active) dot.setAttribute('aria-current','true'); else dot.removeAttribute('aria-current');
+    });
+    if(currentLabel) currentLabel.textContent=String(index+1).padStart(2,'0');
+  }
+  function stop(){ if(timer){window.clearInterval(timer);timer=null;} }
+  function start(){
+    stop();
+    if(reducedMotion) return;
+    timer=window.setInterval(()=>showSlide(index+1),4800);
+  }
+  prev.addEventListener('click',()=>{showSlide(index-1);start();});
+  next.addEventListener('click',()=>{showSlide(index+1);start();});
+  dots.forEach(dot=>dot.addEventListener('click',()=>{showSlide(Number(dot.dataset.slide));start();}));
+  root.addEventListener('mouseenter',stop);
+  root.addEventListener('mouseleave',start);
+  root.addEventListener('focusin',stop);
+  root.addEventListener('focusout',start);
+  root.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].clientX;},{passive:true});
+  root.addEventListener('touchend',e=>{
+    if(touchStartX===null) return;
+    const delta=e.changedTouches[0].clientX-touchStartX;
+    if(Math.abs(delta)>45){showSlide(index+(delta<0?1:-1));start();}
+    touchStartX=null;
+  },{passive:true});
+  slides.forEach(slide=>{
+    const img=slide.querySelector('img');
+    img.addEventListener('error',()=>{
+      slide.classList.add('image-unavailable');
+      img.style.display='none';
+      // 即使外部图片源临时不可用，也保留清晰的色彩背景与地点介绍，不会破坏整个轮播。
+    },{once:true});
+  });
+  showSlide(0);
+  start();
+})();
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+<style>
+/* AI 智能体中心交互增强 */
+.agent-card{display:block;width:100%;text-align:left;color:inherit;font:inherit;cursor:pointer;border:1px solid #e1f1f5;min-height:210px;position:relative}
+.agent-card h3{font-size:22px;line-height:1.45}
+.agent-card p{font-size:15px;line-height:1.85}
+.agent-card .agent-cta{display:inline-flex;margin-top:20px;padding:8px 12px;border-radius:999px;background:#e9faff;color:#087e8b;font-size:13px;font-weight:700}
+.agent-card:focus-visible{outline:3px solid #0ea5a4;outline-offset:3px}
+#agentWorkspace{display:none;margin-top:28px;padding:clamp(18px,3vw,32px);background:linear-gradient(145deg,#fff,#f3fbff);border:1px solid #cdeaf0;border-radius:24px;box-shadow:0 18px 48px rgba(0,100,130,.12);scroll-margin-top:100px}
+#agentWorkspace.open{display:block}
+.agent-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.agent-head h3{font-size:clamp(22px,3vw,30px);color:#075985;margin:0 0 8px}
+.agent-head p{color:#64748b;line-height:1.8}
+.agent-close{padding:8px 13px;font-size:14px;background:#e6f4f7;color:#164e63;white-space:nowrap}
+.agent-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+.agent-form label{display:flex;flex-direction:column;gap:7px;color:#164e63;font-weight:600;font-size:14px}
+.agent-form input,.agent-form select,.agent-form textarea{width:100%;min-width:0;padding:12px 13px;border:1px solid #cce5ed;border-radius:12px;background:#fff;color:#234;font:inherit}
+.agent-form textarea{min-height:90px;resize:vertical}
+.agent-form .wide{grid-column:1/-1}
+.agent-run{padding:13px 22px}
+.agent-output{display:none;margin-top:22px;padding:20px;background:#fff;border:1px solid #d8edf1;border-radius:18px;line-height:1.85;color:#345;overflow-wrap:anywhere}
+.agent-output.show{display:block}
+.agent-output h4{color:#036b91;margin:14px 0 7px}
+.agent-output ul,.agent-output ol{padding-left:22px;margin:8px 0}
+.agent-output li{margin:5px 0}
+.agent-meta{margin-top:14px;padding-top:12px;border-top:1px solid #e5eff2;color:#64748b;font-size:12px}
+.agent-sources a{color:#087e8b;text-decoration:underline;margin-right:12px}
+.agent-disclaimer{margin-top:10px;color:#64748b;font-size:12px;line-height:1.7}
+@media(max-width:600px){.agent-form{grid-template-columns:1fr}.agent-form .wide{grid-column:auto}.agent-head{align-items:flex-start}.agent-card{min-height:170px}}
+</style>
+<section id="agentWorkspace" aria-live="polite" aria-labelledby="agentTitle" role="region">
+  <div class="agent-head"><div><h3 id="agentTitle">启动龙江文旅智能体</h3><p id="agentDescription">填写需求后，智能体将根据内置的黑龙江文旅资源资料生成结果。</p></div><button class="agent-close" type="button" id="agentClose">收起 ×</button></div>
+  <form id="agentForm" class="agent-form"></form>
+  <button class="agent-run" type="button" id="agentRun">✨ 运行智能体</button>
+  <div id="agentOutput" class="agent-output" aria-live="polite"></div>
+  <p class="agent-disclaimer">说明：当前版本为可交互的前端演示，依据页面内置的龙江城市/文旅资料与规则生成内容，不会调用在线大模型、实时票价、实时库存或预订接口。涉及价格、开放时间、交通班次、预约与经营预测的内容均需再次核实。</p>
+</section>
+<script>
+(function(){
+const agents=[
+ {title:"🗺 AI路线规划Agent",desc:"按预算、人数、兴趣与天数生成龙江路线、交通安排、住宿预算和每日行程。",fields:[
+  {id:"budget",label:"总预算（元）",type:"number",value:"3000",min:100},
+  {id:"people",label:"出行人数",type:"number",value:"2",min:1},
+  {id:"days",label:"游玩天数",type:"number",value:"3",min:1,max:30},
+  {id:"interest",label:"旅行兴趣",type:"select",value:"冰雪与城市人文",options:["冰雪与城市人文","湿地生态与观鸟","工业与红色研学","民族文化与博物馆","森林湖泊与乡村体验","边境风情与地质科普"]},
+  {id:"cities",label:"优先城市（可多选，用顿号或逗号分隔）",type:"text",value:"哈尔滨、齐齐哈尔",wide:true}
+ ]},
+ {title:"📚 AI研学设计Agent",desc:"将龙江真实地域资源转化为研学目标、课程任务、学生手册和教师执行方案。",fields:[
+  {id:"subject",label:"研学主题",type:"select",value:"湿地生态",options:["湿地生态","工业科技","红色教育","民族文化","冰雪科学","边境与地理"]},
+  {id:"age",label:"学生学段",type:"select",value:"高校",options:["小学","初中","高中","高校"]},
+  {id:"duration",label:"研学时长",type:"select",value:"1天",options:["半天","1天","2天","3天"]},
+  {id:"group",label:"团队人数",type:"number",value:"30",min:1},
+  {id:"goal",label:"教学重点或特殊要求",type:"textarea",value:"观察、记录、团队协作与成果展示",wide:true}
+ ]},
+ {title:"🚀 AI创业方案Agent",desc:"生成适合大学生团队的龙江文旅创业项目框架、客群、产品、渠道和验证计划。",fields:[
+  {id:"idea",label:"创业方向",type:"select",value:"大学生研学旅行",options:["大学生研学旅行","冰雪体验服务","湿地自然教育","城市文化漫游","地方非遗与文创","边境文化体验"]},
+  {id:"capital",label:"启动资金（元）",type:"number",value:"20000",min:0},
+  {id:"team",label:"团队人数",type:"number",value:"4",min:1},
+  {id:"market",label:"目标客户",type:"select",value:"高校学生与学校社团",options:["高校学生与学校社团","中小学研学团队","亲子家庭","青年自由行游客","文旅机构与企业"]},
+  {id:"advantage",label:"团队优势/已有资源",type:"textarea",value:"高校学生团队，熟悉新媒体运营",wide:true}
+ ]},
+ {title:"💰 AI预算分析Agent",desc:"按人数、天数、成本单价估算交通、住宿、餐饮、门票、组织成本及盈亏平衡。",fields:[
+  {id:"people",label:"人数",type:"number",value:"30",min:1},
+  {id:"days",label:"天数",type:"number",value:"2",min:1,max:30},
+  {id:"price",label:"每人收费（元）",type:"number",value:"699",min:0},
+  {id:"transport",label:"人均交通成本（元）",type:"number",value:"120",min:0},
+  {id:"hotel",label:"人均每晚住宿（元）",type:"number",value:"180",min:0},
+  {id:"meal",label:"人均每日餐饮（元）",type:"number",value:"100",min:0},
+  {id:"ticket",label:"人均门票/体验（元）",type:"number",value:"140",min:0},
+  {id:"fixed",label:"团队固定成本（元）",type:"number",value:"1500",min:0}
+ ]},
+ {title:"📢 AI营销Agent",desc:"面向指定客群与平台，生成宣传标题、内容文案、推广节奏和行动号召。",fields:[
+  {id:"product",label:"推广产品",type:"select",value:"哈尔滨城市文化漫游",options:["哈尔滨城市文化漫游","扎龙湿地生态研学","大庆工业文化研学","镜泊湖森林湖泊游","黑河边境文化体验","龙江冰雪主题旅行"]},
+  {id:"audience",label:"目标客群",type:"select",value:"高校学生",options:["高校学生","中小学研学团队","亲子家庭","青年游客","企业团建","入境游客"]},
+  {id:"platform",label:"发布平台",type:"select",value:"小红书/抖音",options:["小红书/抖音","微信公众号","校园社群","旅行社/机构渠道"]},
+  {id:"tone",label:"文案风格",type:"select",value:"年轻活泼",options:["年轻活泼","知识科普","温暖治愈","专业可信"]},
+  {id:"offer",label:"活动卖点/价格（选填）",type:"text",value:"小团出行、主题任务、可定制",wide:true}
+ ]},
+ {title:"🌐 AI资源匹配Agent",desc:"按城市、主题和团队需求，匹配龙江景区、文化、教育及产业资源，并提示预约与交通注意事项。",fields:[
+  {id:"city",label:"目标城市",type:"select",value:"哈尔滨",options:["哈尔滨","齐齐哈尔","大庆","牡丹江","黑河","佳木斯"]},
+  {id:"theme",label:"资源主题",type:"select",value:"综合匹配",options:["综合匹配","冰雪与城市人文","湿地生态","工业与红色教育","民族文化","森林湖泊","边境与地质科普"]},
+  {id:"purpose",label:"使用场景",type:"select",value:"高校研学",options:["高校研学","亲子旅游","自由行","文旅创业产品","学校/机构团建"]},
+  {id:"needs",label:"资源需求/限制",type:"textarea",value:"希望公共交通可达，适合半天至一天活动",wide:true}
+ ]}
+];
+const cityData={
+"哈尔滨":{theme:"冰雪文化与欧陆风情",items:["中央大街历史文化街区","圣·索菲亚教堂周边建筑风貌","松花江沿岸城市景观","冰雪大世界（季节性开放，须核实）"],tip:"适合城市漫游、建筑文化、冰雪主题体验。"},
+"齐齐哈尔":{theme:"湿地生态与工业研学",items:["扎龙国家级自然保护区","达斡尔族文化体验资源","中国一重相关工业资源（须提前联系）"],tip:"适合湿地观鸟、生态科普、工业文化研学；保护区和企业参访需确认开放安排。"},
+"大庆":{theme:"石油工业与铁人精神",items:["铁人王进喜纪念馆","大庆油田历史陈列相关资源","连环湖温泉景区（须核实营业情况）"],tip:"适合石油工业文化、红色教育和温泉休闲组合。"},
+"牡丹江":{theme:"森林生态与林海雪原",items:["镜泊湖风景区","雪乡相关旅游资源（季节性且距离较远）","林海雪原文化主题资源"],tip:"适合湖泊风光、森林生态和冬季冰雪体验，跨县景点需预留交通时间。"},
+"黑河":{theme:"边境风情与火山地貌",items:["五大连池风景区（需另行安排城际交通）","瑷珲历史文化相关场馆","黑龙江沿岸边境城市景观"],tip:"适合边境文化、历史教育和地质科普；五大连池与黑河市区并非同一片区。"},
+"佳木斯":{theme:"三江湿地与赫哲族文化",items:["三江平原湿地生态资源","赫哲族文化体验资源（村落需规划交通）","松花江沿岸城市景观"],tip:"适合湿地生态、民族文化与江河风光体验。"}
+};
+const sourceLinks=[
+ ['黑龙江省冬季冰雪旅游行动方案','https://www.hlj.gov.cn/hlj/c108381/202511/c00_31886866.shtml'],
+ ['黑龙江省2024年统计公报','https://hlj.gov.cn/hlj/c108419/202504/c00_31866784.shtml'],
+ ['黑龙江省文旅厅','https://wlt.hlj.gov.cn/']
+];
+const workspace=document.getElementById('agentWorkspace'),form=document.getElementById('agentForm'),out=document.getElementById('agentOutput');
+let active=0;
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fieldHtml(f){let input='';
+ if(f.type==='select') input='<select id="'+f.id+'">'+f.options.map(o=>'<option'+(o===f.value?' selected':'')+'>'+esc(o)+'</option>').join('')+'</select>';
+ else if(f.type==='textarea') input='<textarea id="'+f.id+'">'+esc(f.value)+'</textarea>';
+ else input='<input id="'+f.id+'" type="'+(f.type||'text')+'" value="'+esc(f.value)+'" '+(f.min!==undefined?'min="'+f.min+'" ':'')+(f.max!==undefined?'max="'+f.max+'" ':'')+' required>';
+ return '<label class="'+(f.wide?'wide':'')+'">'+esc(f.label)+input+'</label>';
+}
+function openAgent(i){active=i;const a=agents[i];document.getElementById('agentTitle').textContent=a.title;document.getElementById('agentDescription').textContent=a.desc;form.innerHTML=a.fields.map(fieldHtml).join('');out.className='agent-output';out.innerHTML='';workspace.classList.add('open');workspace.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('agentRun').textContent='✨ 运行'+a.title.replace(/^[^ ]+ /,'');}
+document.querySelectorAll('.agent-card').forEach(b=>b.addEventListener('click',()=>openAgent(Number(b.dataset.agent))));
+document.getElementById('agentClose').addEventListener('click',()=>workspace.classList.remove('open'));
+function val(id){return document.getElementById(id)?.value?.trim()||''}
+function num(id){return Math.max(0,Number(val(id))||0)}
+function links(){return '<div class="agent-meta agent-sources"><b>参考公开资料：</b>'+sourceLinks.map(x=>'<a href="'+x[1]+'" target="_blank" rel="noopener noreferrer">'+x[0]+'</a>').join('')+'</div>'}
+function generate(){
+ let body='',title='结果已生成';
+ if(active===0){
+  const budget=num('budget'),people=Math.max(1,num('people')),days=Math.max(1,Math.min(30,num('days'))),interest=val('interest');
+  const wanted=val('cities');let cities=Object.keys(cityData).filter(c=>wanted.includes(c));if(!cities.length)cities=['哈尔滨'];cities=cities.slice(0,days);
+  const perCity=Array(days).fill(0);cities.forEach((c,i)=>perCity[i]=Math.floor(days/cities.length)+(i<days%cities.length?1:0));
+  const daily=people*days*305,transport=people*(Math.max(0,cities.length-1)*150+days*35),hotel=people*Math.max(0,days-1)*180,food=people*days*100,ticket=people*days*70,total=transport+hotel+food+ticket;
+  let day=1, itinerary='';
+  cities.forEach((c,idx)=>{for(let j=0;j<perCity[idx];j++){let d=cityData[c];itinerary+='<li><b>第'+(day++)+'天｜'+c+' · '+d.theme+'</b><br>建议活动：'+d.items[(j*2)%d.items.length]+'；'+d.items[(j*2+1)%d.items.length]+'。<br><small>'+esc(d.tip)+'</small></li>'}});
+  body='<p><b>规划偏好：</b>'+esc(interest)+'；'+people+'人，'+days+'天；预算 ¥'+budget.toLocaleString()+'。</p><h4>建议路线与每日安排</h4><ol>'+itinerary+'</ol><h4>费用初步估算</h4><ul><li>交通：¥'+Math.round(transport).toLocaleString()+'</li><li>住宿：¥'+Math.round(hotel).toLocaleString()+'</li><li>餐饮：¥'+Math.round(food).toLocaleString()+'</li><li>门票/体验：¥'+Math.round(ticket).toLocaleString()+'</li><li><b>合计约 ¥'+Math.round(total).toLocaleString()+'，人均约 ¥'+Math.round(total/people).toLocaleString()+'</b></li></ul><p>'+(budget<total?'当前预算可能不足约 ¥'+Math.round(total-budget).toLocaleString()+'，可减少城市或天数。':'预算参考余量约 ¥'+Math.round(budget-total).toLocaleString()+'，建议留出机动费用。')+'</p>';
+ } else if(active===1){
+  const subject=val('subject'),age=val('age'),duration=val('duration'),group=num('group'),goal=val('goal');
+  const map={"湿地生态":["扎龙湿地或三江平原湿地资源","记录栖息地特征、绘制观察日志","保护区规则与生物多样性讨论"],"工业科技":["大庆石油工业相关场馆","绘制能源生产链与技术流程图","讨论能源转型与工业遗产保护"],"红色教育":["铁人王进喜纪念馆或东北烈士纪念馆等","整理史料时间线与人物故事","完成主题反思与小组汇报"],"民族文化":["赫哲族文化资源或地方博物馆","制作文化元素观察卡","讨论文化传承与尊重差异"],"冰雪科学":["哈尔滨冰雪主题场景（季节性）","记录冰雪结构、温度与材料变化","设计安全提示或科普展板"],"边境与地理":["黑河边境城市或五大连池地质资源","绘制区域资源与交通示意图","讨论边境文化或火山地貌形成"]}[subject];
+  body='<p><b>对象：</b>'+age+'，约'+group+'人；<b>时长：</b>'+duration+'；<b>核心要求：</b>'+esc(goal)+'</p><h4>一、研学目标</h4><ul><li>知识：理解'+subject+'的龙江地域特色及基本概念。</li><li>能力：开展观察、访谈、资料整理与团队协作。</li><li>态度：形成生态保护、历史理解或文化尊重意识。</li></ul><h4>二、课程与任务</h4><ol><li>导入与安全说明：明确问题、分组和记录方式。</li><li>实地探究：'+map[0]+'。</li><li>小组任务：'+map[1]+'。</li><li>成果产出：'+map[2]+'，形成海报/学习单/3分钟汇报。</li></ol><h4>三、学生手册建议栏目</h4><p>出发前问题、观察记录表、证据与照片说明、团队分工、反思与自评。</p><h4>四、教师执行清单</h4><p>提前核实场馆开放和团体预约；准备家校告知、保险与应急预案；现场清点人数；结束后进行成果评价。</p>';
+ } else if(active===2){
+  const idea=val('idea'),capital=num('capital'),team=Math.max(1,num('team')),market=val('market'),adv=val('advantage');
+  body='<p><b>项目方向：</b>'+esc(idea)+'；<b>目标客户：</b>'+esc(market)+'；<b>团队：</b>'+team+'人；<b>启动资金：</b>¥'+capital.toLocaleString()+'</p><h4>项目定位</h4><p>围绕黑龙江“冰雪、湿地、工业、红色、民族、边境”等差异化资源，设计小规模、可预约、可复购的主题文旅产品。</p><h4>产品雏形</h4><ul><li>基础产品：半日/一日主题路线、讲解任务卡、活动后数字纪念册。</li><li>增值产品：定制研学手册、团队导师服务、季节主题活动。</li><li>资源合作：优先对接公开场馆、合规旅行服务商、学校/社团；所有合作须获得对方确认。</li></ul><h4>获客与验证</h4><ol><li>访谈至少10位目标客户，验证痛点和可接受价格。</li><li>制作1页产品介绍与报名意向表，进行小范围测试。</li><li>先完成一次小团试运营，记录满意度、成本和转介绍率。</li></ol><h4>风险与下一步</h4><p>重点核查旅行社经营资质、保险、安全责任、场馆许可和退款规则；不要在未确认资源前销售承诺。团队优势输入：'+esc(adv)+'</p><p>建议将资金按产品打样、内容制作、合规咨询、试运营与应急预留分项管理；收入预测需由真实询价和试运营数据校准。</p>';
+ } else if(active===3){
+  const people=Math.max(1,num('people')),days=Math.max(1,num('days')),price=num('price'),transport=num('transport'),hotel=num('hotel'),meal=num('meal'),ticket=num('ticket'),fixed=num('fixed');
+  const variable=people*(transport+hotel*Math.max(0,days-1)+meal*days+ticket),cost=variable+fixed,revenue=people*price,profit=revenue-cost,breakeven=price>0?Math.ceil(fixed/Math.max(1,price-(transport+hotel*Math.max(0,days-1)+meal*days+ticket))):null;
+  body='<p>按'+people+'人、'+days+'天估算。所有单价均采用你输入的假设值，不代表实时市场报价。</p><div class="budget-grid"><div><span>预计收入</span><b>¥'+revenue.toLocaleString()+'</b></div><div><span>人均变动成本</span><b>¥'+(variable/people).toLocaleString()+'</b></div><div><span>变动成本合计</span><b>¥'+variable.toLocaleString()+'</b></div><div><span>固定成本</span><b>¥'+fixed.toLocaleString()+'</b></div><div><span>预计总成本</span><b>¥'+cost.toLocaleString()+'</b></div><div class="budget-total"><span>预计结余（未计税费等）</span><b>¥'+profit.toLocaleString()+'</b></div></div><h4>盈亏提示</h4><p>'+(profit>=0?'按当前假设，预计结余为正；仍需预留税费、退款、保险、获客和不可预见成本。':'按当前假设预计亏损 ¥'+Math.abs(profit).toLocaleString()+'，可调整售价、规模或成本结构。')+'</p><p>若每人贡献毛利为正，固定成本覆盖所需人数约为：'+(breakeven!==null&&price>(transport+hotel*Math.max(0,days-1)+meal*days+ticket)?breakeven+'人':'当前单人贡献毛利不为正，无法通过扩大人数实现盈亏平衡')+'。</p>';
+ } else if(active===4){
+  const product=val('product'),audience=val('audience'),platform=val('platform'),tone=val('tone'),offer=val('offer');
+  const hook={"哈尔滨城市文化漫游":"把城市当作一本打开的历史书","扎龙湿地生态研学":"去湿地上一堂会呼吸的自然课","大庆工业文化研学":"从油田故事读懂工业力量","镜泊湖森林湖泊游":"把山水与森林装进周末","黑河边境文化体验":"沿着黑龙江，发现边境城市的多元气息","龙江冰雪主题旅行":"把冬天过成一场北国限定体验"}[product];
+  body='<h4>宣传标题</h4><p><b>'+esc(hook)+'｜'+esc(product)+'</b></p><h4>社媒文案（'+esc(platform)+'）</h4><p>想换一种方式认识黑龙江？这次不只打卡，更把风景变成故事、把旅行变成体验。面向'+esc(audience)+'，从'+esc(product)+'出发，结合地方文化观察、主题任务与团队分享，发现龙江独有的城市记忆与自然风貌。'+(offer?'活动亮点：'+esc(offer)+'。':'')+'具体行程、费用与开放安排以最终确认信息为准。感兴趣的话，欢迎留言获取路线与活动详情。</p><h4>推广节奏建议</h4><ol><li>预热期：发布路线亮点、目标客群痛点与问答帖。</li><li>转化期：发布行程图、服务清单、费用包含/不含与报名方式。</li><li>复盘期：征集真实反馈与用户授权素材，沉淀下一轮内容。</li></ol><p><b>风格：</b>'+esc(tone)+'。建议配图使用自有或已获授权的照片，宣传中不要承诺未确认的开放时间、价格、名额或服务。</p>';
+ } else {
+  const city=val('city'),theme=val('theme'),purpose=val('purpose'),needs=val('needs'),d=cityData[city];
+  let items=d.items.slice();
+  if(theme.includes('湿地'))items=items.filter(x=>/湿地|扎龙|三江/.test(x));
+  if(theme.includes('工业')||theme.includes('红色'))items=items.filter(x=>/工业|油田|铁人|纪念馆|达斡尔/.test(x));
+  if(theme.includes('民族'))items=items.filter(x=>/民族|赫哲|达斡尔|博物馆/.test(x));
+  if(theme.includes('森林'))items=items.filter(x=>/镜泊|雪乡|森林|湖/.test(x));
+  if(theme.includes('边境')||theme.includes('地质'))items=items.filter(x=>/五大连池|瑷珲|边境|黑龙江沿岸/.test(x));
+  if(!items.length)items=d.items;
+  body='<p><b>匹配条件：</b>'+esc(city)+' · '+esc(theme)+' · '+esc(purpose)+'；需求：'+esc(needs)+'</p><h4>推荐资源</h4><ul>'+items.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><h4>适配理由</h4><p>'+esc(d.theme)+'；'+esc(d.tip)+'</p><h4>执行核查清单</h4><ul><li>确认官方开放时间、预约方式、团体接待与讲解服务。</li><li>核实从城市枢纽到点位的实际交通时间和季节性道路情况。</li><li>若用于研学/团建，提前确认年龄适配、无障碍、保险及应急安排。</li><li>工业企业、保护区和民族村落等点位需尊重管理规定，不能默认可直接进入。</li></ul>';
+ }
+ out.innerHTML='<h3>'+esc(agents[active].title)+'｜'+title+'</h3>'+body+links();out.classList.add('show');out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+document.getElementById('agentRun').addEventListener('click',()=>{
+ const inputs=Array.from(form.querySelectorAll('input[type=number]'));
+ if(inputs.some(x=>!x.checkValidity()||x.value==='')){inputs.find(x=>!x.checkValidity()||x.value==='')?.reportValidity();return;}
+ generate();
+});
+})();
+</script>
+
+</body>
+
+</html>
